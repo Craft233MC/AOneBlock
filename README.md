@@ -16,10 +16,14 @@ See BentoBox Docs [docs.bentobox.world](https://docs.bentobox.world/en/latest/ga
 
 ## Commands
 
-The user command is `/ob`. The admin command is `/oba`. 
+The user command is `/ob`. The admin command is `/oba`.
 
-
-
+## Build
+手动编译[ZetaUtils](https://github.com/MikuMC/ZetaUtils)，将`ZetaUtils/zutils-plugin/build/libs/`下的文件放入到`lib`文件夹中，然后执行以下命令以补全依赖
+```
+mvn install:install-file -Dfile=lib/zeta.jar -DgroupId=i.mrhua269 -DartifactId=ZetaUtils -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+```
+编译`mvn shadowJar`
 ## FAQ
 
 Q: What phases are there?

@@ -1,6 +1,7 @@
 name: BentoBox-AOneBlock
 main: world.bentobox.aoneblock.AOneBlockPladdon
 version: ${project.version}${build.number}
+folia-supported: true
 api-version: "1.21"
 
 authors: [tastybento]

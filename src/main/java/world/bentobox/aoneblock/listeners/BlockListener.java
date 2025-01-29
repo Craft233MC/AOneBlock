@@ -38,6 +38,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTable;
 import org.bukkit.loot.LootTables;
 import org.bukkit.util.Vector;
+import org.checkerframework.checker.units.qual.A;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -367,16 +368,16 @@ public class BlockListener implements Listener {
         if (e instanceof BlockBreakEvent) {
             this.breakBlock(player, block, nextBlock, i);
         } else if (e instanceof PlayerBucketFillEvent) {
-            Bukkit.getScheduler().runTask(addon.getPlugin(), () -> spawnBlock(nextBlock, block));
+            AOneBlock.getFoliaLib().getScheduler().runNextTick(wrappedTask -> spawnBlock(nextBlock, block));
             // Fire event
             ItemStack tool = Objects.requireNonNull(player).getInventory().getItemInMainHand();
             Bukkit.getPluginManager()
                     .callEvent(new MagicBlockEvent(i, player.getUniqueId(), tool, block, nextBlock.getMaterial()));
         } else if (e instanceof EntitySpawnEvent) {
-            Bukkit.getScheduler().runTask(addon.getPlugin(), () -> spawnBlock(nextBlock, block));
+            AOneBlock.getFoliaLib().getScheduler().runNextTick(wrappedTask -> spawnBlock(nextBlock, block));
         } else if (e instanceof EntityInteractEvent) {
             // Minion breaking block
-            Bukkit.getScheduler().runTask(addon.getPlugin(), () -> spawnBlock(nextBlock, block));
+            AOneBlock.getFoliaLib().getScheduler().runNextTick(wrappedTask -> spawnBlock(nextBlock, block));
             // Fire event
             Bukkit.getPluginManager().callEvent(new MagicBlockEvent(i, null, null, block, nextBlock.getMaterial()));
         }
@@ -420,7 +421,7 @@ public class BlockListener implements Listener {
         ItemStack tool = Objects.requireNonNull(player).getInventory().getItemInMainHand();
 
         // Break normally and lift the player up so they don't fall
-        Bukkit.getScheduler().runTask(addon.getPlugin(), () -> this.spawnBlock(nextBlock, block));
+        AOneBlock.getFoliaLib().getScheduler().runAtLocation(block.getLocation(),wrappedTask -> this.spawnBlock(nextBlock, block));
 
         if (player.getLocation().getBlock().equals(block)) {
             double delta = 1 - (player.getLocation().getY() - block.getY());

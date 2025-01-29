@@ -218,7 +218,19 @@
             <version>3.5.0b</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- FoliaLib -->
+        <dependency>
+            <groupId>com.github.technicallycoded</groupId>
+            <artifactId>FoliaLib</artifactId>
+            <version>0.4.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>i.mrhua269</groupId>
+            <artifactId>ZetaUtils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -260,6 +272,38 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <minimizeJar>false</minimizeJar>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.tcoded.folialib</pattern>
+                            <shadedPattern>orld.bentobox.aoneblock.folialib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>org.apache.maven.shared:*</exclude>
+                            <exclude>org.apache.maven:*</exclude>
+                            <exclude>com.google.code.gson:*</exclude>
+                            <exclude>org.mongodb:*</exclude>
+                            <exclude>org.eclipse.jdt:*</exclude>
+                        </excludes>
+                    </artifactSet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
@@ -279,36 +323,6 @@
                 <version>3.8.1</version>
                 <configuration>
                     <release>${java.version}</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-                <configuration>
-                    <argLine>
-                        ${argLine}
-                        --add-opens java.base/java.lang=ALL-UNNAMED
-                        --add-opens java.base/java.math=ALL-UNNAMED
-                        --add-opens java.base/java.io=ALL-UNNAMED
-                        --add-opens java.base/java.util=ALL-UNNAMED
-                        --add-opens java.base/java.util.stream=ALL-UNNAMED
-                        --add-opens java.base/java.text=ALL-UNNAMED
-                        --add-opens java.base/java.util.regex=ALL-UNNAMED
-                        --add-opens java.base/java.nio.channels.spi=ALL-UNNAMED
-                        --add-opens java.base/sun.nio.ch=ALL-UNNAMED
-                        --add-opens java.base/java.net=ALL-UNNAMED
-                        --add-opens java.base/java.util.concurrent=ALL-UNNAMED
-                        --add-opens java.base/sun.nio.fs=ALL-UNNAMED
-                        --add-opens java.base/sun.nio.cs=ALL-UNNAMED
-                        --add-opens java.base/java.nio.file=ALL-UNNAMED
-                        --add-opens java.base/java.nio.charset=ALL-UNNAMED
-                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-                        --add-opens java.logging/java.util.logging=ALL-UNNAMED
-                        --add-opens java.base/java.lang.ref=ALL-UNNAMED
-                        --add-opens java.base/java.util.jar=ALL-UNNAMED
-                        --add-opens java.base/java.util.zip=ALL-UNNAMED
-                    </argLine>
                 </configuration>
             </plugin>
             <plugin>

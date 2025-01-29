@@ -3,6 +3,10 @@ package world.bentobox.aoneblock;
 import java.io.IOException;
 import java.util.Objects;
 
+import com.tcoded.folialib.FoliaLib;
+import i.mrhua269.zutils.api.WorldManager;
+import i.mrhua269.zutils.nms.v1_21_4.impl.FoliaWorldManagerImpl;
+import i.mrhua269.zutilsplugin.ZUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -58,6 +62,8 @@ public class AOneBlock extends GameModeAddon {
 	private OneBlocksManager oneBlockManager;
     private AOneBlockPlaceholders phManager;
 	private HoloListener holoListener;
+
+	private static FoliaLib foliaLib;
 	
 	// Flag
     public final Flag START_SAFETY = new Flag.Builder("START_SAFETY", Material.BAMBOO_BLOCK)
@@ -109,6 +115,7 @@ public class AOneBlock extends GameModeAddon {
 
 	@Override
 	public void onEnable() {
+		foliaLib = new FoliaLib(getPlugin());
 		oneBlockManager = new OneBlocksManager(this);
 		if (loadData()) {
 			// Failed to load - don't register anything
@@ -209,11 +216,12 @@ public class AOneBlock extends GameModeAddon {
 	 * @return world loaded or generated
 	 */
 	private World getWorld(String worldName2, Environment env, ChunkGeneratorWorld chunkGenerator2) {
+		WorldManager wm = new FoliaWorldManagerImpl();
 		// Set world name
 		worldName2 = env.equals(World.Environment.NETHER) ? worldName2 + NETHER : worldName2;
 		worldName2 = env.equals(World.Environment.THE_END) ? worldName2 + THE_END : worldName2;
         WorldCreator wc = WorldCreator.name(worldName2).environment(env);
-		World w = settings.isUseOwnGenerator() ? wc.createWorld() : wc.generator(chunkGenerator2).createWorld();
+		World w = settings.isUseOwnGenerator() ? wm.createWorld(wc) : wm.createWorld(wc.generator(chunkGenerator2));
 		// Set spawn rates
 		if (w != null) {
 			setSpawnRates(w);
@@ -335,4 +343,7 @@ public class AOneBlock extends GameModeAddon {
         this.settings = settings;
     }
 
+	public static FoliaLib getFoliaLib() {
+		return foliaLib;
+	}
 }

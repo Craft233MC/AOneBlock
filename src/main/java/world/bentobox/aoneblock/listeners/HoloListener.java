@@ -114,7 +114,7 @@ public class HoloListener implements Listener {
 
         // Set up auto delete
         if (addon.getSettings().getHologramDuration() > 0) {
-            Bukkit.getScheduler().runTaskLater(addon.getPlugin(), () -> clearIfInitialized(hologram), addon.getSettings().getHologramDuration() * 20L);
+            AOneBlock.getFoliaLib().getScheduler().runLater(() -> clearIfInitialized(hologram), addon.getSettings().getHologramDuration() * 20L);
         }
     }
 
