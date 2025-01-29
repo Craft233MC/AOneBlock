@@ -43,7 +43,7 @@ public class StartSafetyListener implements Listener {
                 time = 10; // 10 seconds
             }
             newIslands.put(playerUUID, System.currentTimeMillis() + (time * 1000));
-            AOneBlock.getFoliaLib().getScheduler().runLater(() -> {
+            AOneBlock.getFoliaLib().getScheduler().runAtLocationLater(User.getInstance(playerUUID).getLocation(),() -> {
                 newIslands.remove(playerUUID);
                 User.getInstance(playerUUID).sendMessage("protection.flags.START_SAFETY.free-to-move");
             }, time);

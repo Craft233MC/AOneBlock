@@ -368,16 +368,16 @@ public class BlockListener implements Listener {
         if (e instanceof BlockBreakEvent) {
             this.breakBlock(player, block, nextBlock, i);
         } else if (e instanceof PlayerBucketFillEvent) {
-            AOneBlock.getFoliaLib().getScheduler().runNextTick(wrappedTask -> spawnBlock(nextBlock, block));
+            AOneBlock.getFoliaLib().getScheduler().runAtLocation(block.getLocation(),wrappedTask -> spawnBlock(nextBlock, block));
             // Fire event
             ItemStack tool = Objects.requireNonNull(player).getInventory().getItemInMainHand();
             Bukkit.getPluginManager()
                     .callEvent(new MagicBlockEvent(i, player.getUniqueId(), tool, block, nextBlock.getMaterial()));
         } else if (e instanceof EntitySpawnEvent) {
-            AOneBlock.getFoliaLib().getScheduler().runNextTick(wrappedTask -> spawnBlock(nextBlock, block));
+            AOneBlock.getFoliaLib().getScheduler().runAtLocation(block.getLocation(),wrappedTask -> spawnBlock(nextBlock, block));
         } else if (e instanceof EntityInteractEvent) {
             // Minion breaking block
-            AOneBlock.getFoliaLib().getScheduler().runNextTick(wrappedTask -> spawnBlock(nextBlock, block));
+            AOneBlock.getFoliaLib().getScheduler().runAtLocation(block.getLocation(), wrappedTask -> spawnBlock(nextBlock, block));
             // Fire event
             Bukkit.getPluginManager().callEvent(new MagicBlockEvent(i, null, null, block, nextBlock.getMaterial()));
         }
