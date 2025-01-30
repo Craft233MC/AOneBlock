@@ -45,7 +45,7 @@ public class HoloListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDeletedIsland(IslandDeleteEvent e) {
-        deleteHologram(e.getIsland());
+        AOneBlock.getFoliaLib().getScheduler().runAtLocation(e.getIsland().getProtectionCenter(), wrappedTask -> deleteHologram(e.getIsland()));
     }
 
     private Optional<TextDisplay> getHologram(Island island) {
