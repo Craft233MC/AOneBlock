@@ -234,7 +234,7 @@ public class BlockListener implements Listener {
 
         if (optionalIsland.isPresent()) {
             // Teleport entity to the top of magic block.
-            entity.teleport(optionalIsland.get().getCenter().add(0.5, 1, 0.5));
+            entity.teleportAsync(optionalIsland.get().getCenter().add(0.5, 1, 0.5));
             entity.setVelocity(new Vector(0, 0, 0));
         }
     }
@@ -425,10 +425,10 @@ public class BlockListener implements Listener {
 
         if (player.getLocation().getBlock().equals(block)) {
             double delta = 1 - (player.getLocation().getY() - block.getY());
-            player.teleport(player.getLocation().add(new Vector(0, delta, 0)));
+            player.teleportAsync(player.getLocation().add(new Vector(0, delta, 0)));
             player.setVelocity(new Vector(0, 0, 0));
         } else if (player.getLocation().getBlock().equals(block.getRelative(BlockFace.UP))) {
-            player.teleport(player.getLocation());
+            player.teleportAsync(player.getLocation());
             player.setVelocity(new Vector(0, 0, 0));
         }
 
