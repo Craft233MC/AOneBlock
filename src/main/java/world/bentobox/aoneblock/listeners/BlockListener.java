@@ -42,6 +42,8 @@ import org.checkerframework.checker.units.qual.A;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import world.bentobox.aoneblock.AOneBlock;
 import world.bentobox.aoneblock.dataobjects.OneBlockIslands;
 import world.bentobox.aoneblock.events.MagicBlockEntityEvent;
@@ -62,6 +64,7 @@ import world.bentobox.bentobox.util.Util;
  */
 public class BlockListener implements Listener {
 
+    private static final Logger log = LoggerFactory.getLogger(BlockListener.class);
     /**
      * Main addon class.
      */
@@ -234,7 +237,9 @@ public class BlockListener implements Listener {
 
         if (optionalIsland.isPresent()) {
             // Teleport entity to the top of magic block.
-            entity.teleportAsync(optionalIsland.get().getCenter().add(0.5, 1, 0.5));
+            AOneBlock.getFoliaLib().getScheduler().runAtEntity(
+                    entity, wrappedTask -> entity.teleportAsync(location.getBlock().getLocation().add(0.5, 1, 0.5))
+            );
             entity.setVelocity(new Vector(0, 0, 0));
         }
     }
